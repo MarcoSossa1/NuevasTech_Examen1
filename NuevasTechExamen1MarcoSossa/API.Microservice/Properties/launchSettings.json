@@ -3,7 +3,9 @@
     "API.Microservice": {
       "commandName": "Project",
       "commandLineArgs": "--port 7036",
-      "launchBrowser": false
+      "environmentVariables": {
+        "cadenaconexion": "DefaultEndpointsProtocol=https;AccountName=nuevastecnologias;AccountKey=lwLP2N6r1lOzRjxKrpSmkYIxFw9Ormln6gcmr0CZL6WgIL6T7WA7ZealcfJE7KHTIf7Xx9pEpS4Q+AStqQjZCw==;EndpointSuffix=core.windows.net"
+      }
     }
   }
 }
