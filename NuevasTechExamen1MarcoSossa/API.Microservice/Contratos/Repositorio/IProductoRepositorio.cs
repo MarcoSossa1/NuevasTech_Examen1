@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 
 namespace API.Microservice.Contratos.Repositorio
 {
-    public interface IProveedorRepositorio
+    public interface IProductoRepositorio
     {
-        Task<bool> Create(Proveedor proveedor);
-        Task<bool> Update(Proveedor proveedor);
+        Task<bool> Create(Producto producto);
+        Task<bool> Update(Producto producto);
         Task<bool> Delete(string partitionKey, string rowKey);
-        Task<List<Proveedor>> GetAll();
-        Task<Proveedor> Get(string rowKey);
+        Task<List<Producto>> GetAll();
+        Task<Producto> Get(string rowKey);
     }
 }
