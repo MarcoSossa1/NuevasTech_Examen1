@@ -73,14 +73,14 @@ namespace API.Microservice.EndPoints
         [OpenApiRequestBody("application/json", typeof(Proveedor),
             Description = "editar Proveedor")]
         public async Task<HttpResponseData> EditarProveedor(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "EditarProveedor/{id}")] HttpRequestData req,
-            string id)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "EditarProveedor/{RowKey}")] HttpRequestData req,
+            string rowKey)
         {
             HttpResponseData response;
             try
             {
                 var proveedor = await req.ReadFromJsonAsync<Proveedor>() ?? throw new Exception("Debe ingresar un proveedor con todos sus datos");
-                proveedor.RowKey = id;
+                proveedor.RowKey = rowKey;
                 bool success = await repositorio.Update(proveedor);
                 response = req.CreateResponse(success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
             }
@@ -118,13 +118,13 @@ namespace API.Microservice.EndPoints
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Summary = "ID de la Proveedor", Description = "El RowKey de la Proveedor a obtener", Visibility = OpenApiVisibilityType.Important)]
 
         public async Task<HttpResponseData> ListarProveedorById(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "ListarProveedorById/{id}")] HttpRequestData req,
-            string id)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "ListarProveedorById/{RowKey}")] HttpRequestData req,
+            string rowKey)
         {
             HttpResponseData response;
             try
             {
-                var proveedor = await repositorio.Get(id);
+                var proveedor = await repositorio.Get(rowKey);
                 response = req.CreateResponse(proveedor != null ? HttpStatusCode.OK : HttpStatusCode.NotFound);
                 if (proveedor != null)
                 {

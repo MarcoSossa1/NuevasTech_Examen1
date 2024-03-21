@@ -8,25 +8,25 @@ using System.Threading.Tasks;
 
 namespace API.Microservice.Implementacion.Repositorio
 {
-    public class ProveedorRepositorio : IProveedorRepositorio
+    public class ProductoRepositorio : IProductoRepositorio
     {
         private readonly string? cadenaConexion;
         private readonly string tablaNombre;
         private readonly IConfiguration configuration;
 
-        public ProveedorRepositorio(IConfiguration conf)
+        public ProductoRepositorio(IConfiguration conf)
         {
             configuration = conf;
             cadenaConexion = configuration.GetSection("cadenaconexion").Value;
-            tablaNombre = "Proveedor";
+            tablaNombre = "Producto";
         }
 
-        public async Task<bool> Create(Proveedor proveedor)
+        public async Task<bool> Create(Producto producto)
         {
             try
             {
                 var tablaCliente = new TableClient(cadenaConexion, tablaNombre);
-                await tablaCliente.UpsertEntityAsync(proveedor);
+                await tablaCliente.UpsertEntityAsync(producto);
                 return true;
             }
             catch (Exception)
@@ -49,37 +49,37 @@ namespace API.Microservice.Implementacion.Repositorio
             }
         }
 
-        public async Task<Proveedor> Get(string rowKey)
+        public async Task<Producto> Get(string rowKey)
         {
             var tablaCliente = new TableClient(cadenaConexion, tablaNombre);
-            var filtro = $"PartitionKey eq 'Proveedores' and RowKey eq '{rowKey}'";
-            await foreach (Proveedor proveedor in tablaCliente.QueryAsync<Proveedor>(filter: filtro))
+            var filtro = $"PartitionKey eq 'Productos' and RowKey eq '{rowKey}'";
+            await foreach (Producto producto in tablaCliente.QueryAsync<Producto>(filter: filtro))
             {
-                return proveedor;
+                return producto;
             }
             return null;
         }
 
-        public async Task<List<Proveedor>> GetAll()
+        public async Task<List<Producto>> GetAll()
         {
-            List<Proveedor> lista = new List<Proveedor>();
+            List<Producto> lista = new List<Producto>();
             var tablaCliente = new TableClient(cadenaConexion, tablaNombre);
-            var filtro = $"PartitionKey eq 'Proveedores'";
+            var filtro = $"PartitionKey eq 'Productos'";
 
-            await foreach (Proveedor proveedor in tablaCliente.QueryAsync<Proveedor>(filter: filtro))
+            await foreach (Producto producto in tablaCliente.QueryAsync<Producto>(filter: filtro))
             {
-                lista.Add(proveedor);
+                lista.Add(producto);
             }
 
             return lista;
         }
 
-        public async Task<bool> Update(Proveedor proveedor)
+        public async Task<bool> Update(Producto producto)
         {
             try
             {
                 var tablaCliente = new TableClient(cadenaConexion, tablaNombre);
-                await tablaCliente.UpdateEntityAsync(proveedor, proveedor.ETag);
+                await tablaCliente.UpdateEntityAsync(producto, producto.ETag);
                 return true;
             }
             catch (Exception)
